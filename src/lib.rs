@@ -51,7 +51,7 @@ pub fn move_as_knight(start: char) -> Option<Vec<char>> {
         '2' => Some(vec!['7', '9']),
         '3' => Some(vec!['4', '8']),
         '4' => Some(vec!['2', '9']),
-        '5' => Some(vec![]),
+        '5' => None,
         '6' => Some(vec!['1', '7']),
         '7' => Some(vec!['2', '6']),
         '8' => Some(vec!['1', '3']),
@@ -113,9 +113,18 @@ pub fn move_as_king(start: &char) -> Option<Vec<char>> {
 mod test {
     use super::*;
 
+    type Mover = fn(&char) -> Option<Vec<char>>;
+
     #[test]
     fn self_returning_moves() {
         let keys = vec!['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+        let methods: Vec<Mover> = vec![
+            &move_as_rook,
+            &move_as_bishop,
+            &move_as_knight,
+            &move_as_queen,
+            &move_as_king
+        ];
 
         for key in keys.iter() {
             let moves = move_as_rook(*key).unwrap();
